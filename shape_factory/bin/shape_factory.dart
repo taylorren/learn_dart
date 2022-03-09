@@ -1,6 +1,12 @@
 import "dart:math";
 
 abstract class Shape {
+  factory Shape(String type) {
+    if (type == 'circle') return Circle(2);
+    if (type == 'square') return Square(3);
+
+    throw ("Can't create type '$type'");
+  }
   num get area;
 }
 
@@ -11,6 +17,13 @@ class Circle implements Shape {
   num get area => pi * pow(radius, 2);
 }
 
+class CircleMock implements Circle {
+  @override
+  num area = 0;
+  @override
+  num radius = 0;
+}
+
 class Square implements Shape {
   final num side;
   Square(this.side);
@@ -18,22 +31,23 @@ class Square implements Shape {
   num get area => side * side;
 }
 
+/*
 Shape shapeFactory(String type) {
   if (type == 'circle') return Circle(2);
   if (type == 'square') return Square(3);
 
   throw ("Can't create type '$type'");
 }
-
+*/
 void main() {
-  final circle = shapeFactory('circle');
+  final circle = Shape('circle');
   print(circle.area);
 
-  final square = shapeFactory('square');
+  final square = Shape('square');
   print(square.area);
 
   try {
-    final unknown = shapeFactory('unknown');
+    final unknown = Shape('unknown');
     print(unknown.area);
   } catch (e) {
     print(e);
